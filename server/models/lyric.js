@@ -15,9 +15,11 @@ LyricSchema.statics.like = function(id) {
 
   return Lyric.findById(id)
     .then(lyric => {
+      console.log(lyric)
       ++lyric.likes;
       return lyric.save();
     })
 }
 
-mongoose.model('lyric', LyricSchema);
+module.exports = mongoose.model('lyric', LyricSchema);
+

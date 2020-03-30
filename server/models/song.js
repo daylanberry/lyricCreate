@@ -10,7 +10,9 @@ const SongSchema = new Schema({
   lyrics: [{
     type: Schema.Types.ObjectId,
     ref: 'lyric'
-  }]
+  }],
+}, {
+  usePushEach: true
 });
 
 SongSchema.statics.addLyric = function(id, content) {
@@ -20,8 +22,11 @@ SongSchema.statics.addLyric = function(id, content) {
     .then(song => {
       const lyric = new Lyric({ content, song })
       song.lyrics.push(lyric)
+
       return Promise.all([lyric.save(), song.save()])
-        .then(([lyric, song]) => song);
+        .then(([lyric, song]) => {
+          return song
+        });
     });
 }
 
